@@ -4,8 +4,8 @@ class Viewport {
     this.ctx = canvas.getContext("2d");
 
     this.zoom = 1;
-    this.centre = new Point(canvas.width / 2, canvas.height / 2);
-    this.offset = scale(this.centre, -1);
+    this.center = new Point(canvas.width / 2, canvas.height / 2);
+    this.offset = scale(this.center, -1);
 
     this.drag = {
       start: new Point(0, 0),
@@ -21,7 +21,7 @@ class Viewport {
     this.ctx.restore();
     this.ctx.clearRect(0, 0, this.canvas.width,this.canvas.height);
     this.ctx.save();
-    this.ctx.translate(this.centre.x, this.centre.y);
+    this.ctx.translate(this.center.x, this.center.y);
     this.ctx.scale(1 / this.zoom, 1 / this.zoom);
     const offset = this.getOffset();
     this.ctx.translate(offset.x, offset.y);
@@ -29,8 +29,8 @@ class Viewport {
 
   getMouse(evt, subtractDragOffset = false) {
     const p = new Point(
-      (evt.offsetX - this.centre.x) * this.zoom - this.offset.x,
-      (evt.offsetY - this.centre.y) * this.zoom - this.offset.y
+      (evt.offsetX - this.center.x) * this.zoom - this.offset.x,
+      (evt.offsetY - this.center.y) * this.zoom - this.offset.y
     );
 
     return subtractDragOffset ? subtract(p, this.drag.offset) : p;
