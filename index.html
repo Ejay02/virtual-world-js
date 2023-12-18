@@ -12,6 +12,9 @@
     <div id="controls">
       <button onclick="dispose()">🗑️</button>
       <button onclick="save()">💾</button>
+      &nbsp;
+      <button id="graphBtn" onclick="setMode('graph')">🌐</button>
+      <button id="stopBtn" onclick="setMode('stop')">🛑</button>
     </div>
 
     <script src="js/graphEditor.js"></script>
@@ -27,11 +30,13 @@
     <script src="js/primitives/envelope.js"></script>
 
     <script>
-      myCanvas.width =1360;
-      myCanvas.height = 568;
+      // myCanvas.width = 600;
+      // myCanvas.height = 600;
+      // myCanvas.width = 1360;
+      // myCanvas.height = 568;
 
-      // myCanvas.width = window.innerWidth;
-      // myCanvas.height = window.innerHeight;
+      myCanvas.width = window.innerWidth;
+      myCanvas.height = window.innerHeight;
 
       const ctx = myCanvas.getContext("2d");
 
@@ -45,6 +50,8 @@
       const graphEditor = new GraphEditor(viewport, graph);
 
       let oldGraphHash = graph.hash();
+
+      setMode("graph");
 
       animate();
 
@@ -68,6 +75,31 @@
 
       function save() {
         localStorage.setItem("graph", JSON.stringify(graph));
+      }
+
+      function setMode(mode) {
+        disableEditors();
+
+        switch (mode) {
+          case "graph":
+            graphBtn.style.backgroundColor = "white";
+            graphBtn.style.filter = "";
+            graphEditor.enable();
+            break;
+
+          case "stop":
+            stopBtn.style.backgroundColor = "white";
+            stopBtn.style.filter = "";
+            break;
+        }
+      }
+
+      function disableEditors() {
+        graphBtn.style.backgroundColor = "gray";
+        graphBtn.style.filter = "grayscale(100%)";
+        graphEditor.disable();
+        stopBtn.style.backgroundColor = "gray";
+        stopBtn.style.filter = "grayscale(100%)";
       }
     </script>
   </body>
