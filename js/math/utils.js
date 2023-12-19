@@ -1,22 +1,19 @@
 function getNearestPoint(loc, points, threshold = Number.MAX_SAFE_INTEGER) {
-  let minDistance = Number.MAX_SAFE_INTEGER;
+  let minDist = Number.MAX_SAFE_INTEGER;
   let nearest = null;
-
   for (const point of points) {
     const dist = distance(point, loc);
-    if (dist < minDistance && dist < threshold) {
-      minDistance = dist;
+    if (dist < minDist && dist < threshold) {
+      minDist = dist;
       nearest = point;
     }
   }
-
   return nearest;
 }
 
 function getNearestSegment(loc, segments, threshold = Number.MAX_SAFE_INTEGER) {
   let minDist = Number.MAX_SAFE_INTEGER;
   let nearest = null;
-
   for (const seg of segments) {
     const dist = seg.distanceToPoint(loc);
     if (dist < minDist && dist < threshold) {
@@ -24,7 +21,6 @@ function getNearestSegment(loc, segments, threshold = Number.MAX_SAFE_INTEGER) {
       nearest = seg;
     }
   }
-
   return nearest;
 }
 
@@ -81,7 +77,6 @@ function getIntersection(A, B, C, D) {
   const bottom = (D.y - C.y) * (B.x - A.x) - (D.x - C.x) * (B.y - A.y);
 
   const eps = 0.001;
-
   if (Math.abs(bottom) > eps) {
     const t = tTop / bottom;
     const u = uTop / bottom;
@@ -108,4 +103,11 @@ function lerp2D(A, B, t) {
 function getRandomColor() {
   const hue = 290 + Math.random() * 260;
   return "hsl(" + hue + ", 100%, 60%)";
+}
+
+function getFake3dPoint(point, viewPoint, height) {
+  const dir = normalize(subtract(point, viewPoint));
+  const dist = distance(point, viewPoint);
+  const scaler = Math.atan(dist / 300) / (Math.PI / 2);
+  return add(point, scale(dir, height * scaler));
 }

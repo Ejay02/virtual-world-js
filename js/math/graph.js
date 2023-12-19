@@ -13,7 +13,6 @@ class Graph {
           points.find((p) => p.equals(i.p2))
         )
     );
-
     return new Graph(points, segments);
   }
 
